@@ -1,0 +1,144 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+template<typename T>
+class SortedSet{
+
+    private:
+    class Node{
+        public:
+        T data ;
+        Node* next;
+        Node(){
+            next=NULL;
+        }
+        Node(T val){
+            data=val;
+            next=NULL;
+      }
+    };
+
+    public:
+   Node* head;
+Node* tail;
+//Default Constructor. SortedSet();
+SortedSet(){
+    head=NULL;
+    tail=NULL;
+}
+void insert(T const data){
+    //the insert function will sort the data and will not allow the duplicates 
+Node* temp=new Node;
+if(temp==NULL){
+   throw runtime_error("Memory allocation has failed");
+    //exception handling in case memory is not allocated for temp
+}
+Node* prev;
+Node* current=head;
+
+temp->data=data;
+while(current!=NULL && current->data<data){
+    //this loops add the elements in ascending order only
+    prev=current;
+    current=current->next;
+    
+    }
+    //the loop below delete all the duplicates
+    while(current!=NULL&& current->data==data){
+        temp=NULL;
+        delete temp;
+        return;
+    }
+temp->next=current;
+if(current==head){
+    head=temp;
+}
+else {
+    prev->next=temp;
+}
+}
+void print() const{
+    Node* temp=head;
+    while(temp!=NULL){
+cout<<temp->data<<" -> ";
+temp=temp->next;
+    }cout<<"NULL"<<endl;
+}
+void InsertAtTail(int value){
+    Node* new_node=new Node(value);
+    Node* temp=head;
+  while(temp->next!=NULL){ // if the next pointer of temp is not null then add next pointer to temp
+    temp=temp->next;
+  }
+  temp->next=new_node;
+}
+void RotateSet(int n){
+    SortedSet<int> set;
+Node* temp=head;// for traversing the linked list after the index
+Node* temp1=head;//for traversing the ll from the start
+int index=0,count=0;
+while(temp!=NULL){
+        count++;
+        temp=temp->next;
+//gives the length of linked list 
+    }
+    if(n>=count){
+       throw runtime_error("You cannot rotate by number greater than linked list");
+        return;
+    }
+if(n==0){
+    return;
+}
+else {
+    temp=head;
+    while(temp!=NULL && index<n){
+        temp=temp->next;
+        index++; 
+    }
+    if(index==n){
+set.insert(temp->data);
+temp=temp->next;
+    }
+    //traversing the ll after the index
+    while(temp!=NULL){
+       set.insert(temp->data);
+        temp=temp->next;
+    }
+  int i=0;
+  //traversing from the start 
+    while(i<n ){
+    set.InsertAtTail(temp1->data);
+    temp1=temp1->next;
+    i++;
+    }
+//empty the linked list 
+while(head!=NULL){
+    Node* temp=head;
+    head=head->next;
+    delete temp;
+}
+tail=NULL;
+//copy the set in the linked list 
+head= set.head;
+tail=set.tail;
+set.tail=set.head=NULL;
+}
+}
+};
+int main(){
+    SortedSet <int>a;
+    for(int i=0;i<10;i++)
+    a.insert((rand()%20)); 
+    a.print();
+    int num;
+    cout<<"Enter the number by which you want to rotate"<<endl;
+    cin>>num;
+    while(num<0){
+        cout<<"Enter a positive number"<<endl;
+        cin>>num;
+    }
+    a.RotateSet(num);
+    a.print();
+  
+    return 0;
+}
